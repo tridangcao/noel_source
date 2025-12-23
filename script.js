@@ -52,6 +52,12 @@ setInterval(createFallingElement, 150);
 (function () {
   const wrapper = document.getElementById('giftBtn');
   const surprise = document.getElementById('surprise-section');
+
+  // Video elements
+  const videoOverlay = document.getElementById('video-overlay');
+  const introVideo = document.getElementById('introVideo');
+  const skipBtn = document.getElementById('skipBtn');
+
   let opened = false;
 
   function createConfetti() {
@@ -99,12 +105,14 @@ setInterval(createFallingElement, 150);
     gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
   }
 
-  wrapper.addEventListener('click', function () {
-    if (opened) return;
-    opened = true;
+  // Actual Gift Opening Animation Sequence
+  function startGiftOpening() {
+    // Prevent double trigger just in case
+    // opened check is already done before calling this, but safe to keep
+
     wrapper.classList.add('opening');
 
-    // Change text on click
+    // Change text
     const subtitle = document.getElementById('subtitleText');
     if (subtitle) subtitle.textContent = "My love, I love you so much ❤️❤️❤️";
 
@@ -137,7 +145,56 @@ setInterval(createFallingElement, 150);
       surprise.style.display = 'block';
       window.scrollTo({ top: surprise.offsetTop, behavior: 'smooth' });
     }, 2800);
+  }
 
+  function finishVideo() {
+    introVideo.pause();
+    videoOverlay.classList.add('hidden');
+    // Start the gift opening sequence
+    startGiftOpening();
+  }
+
+  wrapper.addEventListener('click', function () {
+    if (opened) return;
+    opened = true;
+
+    // Show video overlay
+    videoOverlay.classList.remove('hidden');
+
+    // Play video
+    introVideo.play().catch(e => {
+      console.log("Auto-play failed, user might need to interact first", e);
+    });
   });
+
+  // Handle Video End
+  introVideo.addEventListener('ended', function () {
+    finishVideo();
+  });
+
+  // Handle Skip Button
+  skipBtn.addEventListener('click', function () {
+    finishVideo();
+  });
+
+  // Background Music Logic
+  const bgMusic = document.getElementById('bgMusic');
+  // Try autoplay
+  bgMusic.volume = 0.5; // Set volume to 50%
+  const playPromise = bgMusic.play();
+
+  if (playPromise !== undefined) {
+    playPromise.then(_ => {
+      // Autoplay started!
+    }).catch(error => {
+      // Autoplay was prevented.
+      // Show play button or just play on first interaction
+      const startMusic = () => {
+        bgMusic.play();
+        document.removeEventListener('click', startMusic);
+      };
+      document.addEventListener('click', startMusic);
+    });
+  }
 
 })();
