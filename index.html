@@ -18,7 +18,7 @@
   <img src="asset/Judy_Hopps_Z2.PNG.webp" class="reindeer right" alt="Judy" />
 
   <h1>🎄 Merry Christmas for you ❤️</h1>
-  <p class="subtitle" id="subtitleText">Click vào đây ✨</p>
+  <p class="subtitle" id="subtitleText">Click để biết trái tim này có ai nè ✨</p>
 
   <!-- Heart Box Container -->
   <div class="heart-wrapper" id="giftBtn">
@@ -51,7 +51,9 @@
   </div>
 
   <div id="surprise-section">
-    <p class="message">🎅 Chúc em một mùa Noel thật ấm áp và tràn đầy yêu thương ❤️ 🎄</p>
+    <p class="message">🎅 Hi vọng Hương thích món quà này nhé! Chúc cậu một mùa Noel thật ấm áp và tràn đầy yêu thương,
+      cậu điều tuyệt vời nhất đến với tớ ❤️🎄
+    </p>
 
     <!-- New Reveal Image Section -->
     <div class="img-container">
@@ -60,6 +62,22 @@
       </div>
     </div>
   </div>
+
+  <!-- Video Overlay -->
+  <div id="video-overlay" class="hidden">
+    <div class="video-container">
+      <video id="introVideo" controls>
+        <source src="asset/7358039211051.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <button id="skipBtn">Skip Video ⏭️</button>
+    </div>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="asset/bg_music.mp3" type="audio/mp3">
+  </audio>
 
   <!-- Main Script -->
   <script src="script.js"></script>
